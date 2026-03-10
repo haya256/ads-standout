@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Ads Standout",
+  "version": "1.0",
+  "description": "DuckDuckGoやXの広告を目立たせます",
+  "permissions": [],
+  "content_scripts": [
+    {
+      "matches": ["*://duckduckgo.com/*", "*://x.com/*", "*://twitter.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ]
+}
