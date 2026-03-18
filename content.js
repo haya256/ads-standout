@@ -6,17 +6,8 @@ const DDG_AD_SELECTORS = [
 ];
 
 
-function addBadge(el) {
-  if (el.querySelector('.ads-standout-badge')) return;
-  const badge = document.createElement('div');
-  badge.className = 'ads-standout-badge';
-  badge.textContent = '広告';
-  el.insertBefore(badge, el.firstChild);
-}
-
 function highlightElement(el) {
   el.classList.add('ads-standout-highlighted');
-  addBadge(el);
 }
 
 function highlightDDGAds() {
