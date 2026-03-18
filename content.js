@@ -7,6 +7,7 @@ const DDG_AD_SELECTORS = [
 
 
 function highlightElement(el) {
+  if (el.parentElement?.closest('.ads-standout-highlighted')) return;
   el.classList.add('ads-standout-highlighted');
 }
 
