@@ -6,9 +6,10 @@ const DDG_AD_SELECTORS = [
 ];
 
 
-function highlightElement(el) {
+function highlightElement(el, extraClass = null) {
   if (el.parentElement?.closest('.ads-standout-highlighted')) return;
   el.classList.add('ads-standout-highlighted');
+  if (extraClass) el.classList.add(extraClass);
 }
 
 function highlightDDGAds() {
@@ -21,7 +22,7 @@ function highlightDDGAds() {
 // data-testid="placementTracking" がプロモーションツイートのコンテナ
 function highlightXAds() {
   document.querySelectorAll('[data-testid="placementTracking"]').forEach(el => {
-    highlightElement(el);
+    highlightElement(el, 'ads-standout-highlighted--x');
   });
 }
 
