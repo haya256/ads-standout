@@ -1,38 +1,31 @@
-// DuckDuckGo の広告要素を検出するセレクタ
-const DDG_AD_SELECTORS = [
-  '.result--ad',
-  '[data-testid="ad"]',
-  '.badge--ad',
+const SITE_CONFIGS = [
+  {
+    hostnames: ['duckduckgo.com'],
+    selectors: ['.result--ad', '[data-testid="ad"]', '.badge--ad'],
+    cssClass: 'ads-standout-highlighted--ddg',
+  },
+  {
+    // X のプロモーションツイートを検出：
+    // data-testid="placementTracking" がプロモーションツイートのコンテナ
+    hostnames: ['x.com', 'twitter.com'],
+    selectors: ['[data-testid="placementTracking"]'],
+    cssClass: 'ads-standout-highlighted--x',
+  },
 ];
 
-
-function highlightElement(el, extraClass = null) {
+function highlightElement(el, cssClass = null) {
   if (el.parentElement?.closest('.ads-standout-highlighted')) return;
   el.classList.add('ads-standout-highlighted');
-  if (extraClass) el.classList.add(extraClass);
-}
-
-function highlightDDGAds() {
-  DDG_AD_SELECTORS.forEach(selector => {
-    document.querySelectorAll(selector).forEach(el => highlightElement(el));
-  });
-}
-
-// X のプロモーションツイートを検出：
-// data-testid="placementTracking" がプロモーションツイートのコンテナ
-function highlightXAds() {
-  document.querySelectorAll('[data-testid="placementTracking"]').forEach(el => {
-    highlightElement(el, 'ads-standout-highlighted--x');
-  });
+  if (cssClass) el.classList.add(cssClass);
 }
 
 function highlightAds() {
   const host = location.hostname;
-  if (host.includes('duckduckgo.com')) {
-    highlightDDGAds();
-  } else if (host.includes('x.com') || host.includes('twitter.com')) {
-    highlightXAds();
-  }
+  const config = SITE_CONFIGS.find(c => c.hostnames.some(h => host.includes(h)));
+  if (!config) return;
+  config.selectors.forEach(selector => {
+    document.querySelectorAll(selector).forEach(el => highlightElement(el, config.cssClass));
+  });
 }
 
 // 初回実行
